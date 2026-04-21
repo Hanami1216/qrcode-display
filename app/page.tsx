@@ -31,23 +31,14 @@ export default function Home() {
   const fetchQRCode = useCallback(async () => {
     setLoading(true);
     try {
-      // 模拟 API 请求 - 实际使用时替换为真实 API 地址
-      // const response = await fetch("/api/qrcode");
-      // const result: ApiResponse = await response.json();
+      const response = await fetch("/api/qrcode");
+      const result: ApiResponse = await response.json();
       
-      // 模拟数据 - 实际使用时从 API 获取
-      const mockData: QRCodeData = {
-        code: "REDIS_SCANNER_IMN6IM093JO",
-        barcode: PLACEHOLDER_IMAGE,
-        qrcode: PLACEHOLDER_IMAGE,
-      };
-      
-      // 模拟网络延迟
-      await new Promise(resolve => setTimeout(resolve, 500));
-      
-      setQrData(mockData);
-      setLastUpdate(new Date());
-      setCountdown(30);
+      if (result.data.code === 0) {
+        setQrData(result.data.data);
+        setLastUpdate(new Date());
+        setCountdown(30);
+      }
     } catch (error) {
       console.error("获取二维码失败:", error);
     } finally {
